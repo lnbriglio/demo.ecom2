@@ -1,26 +1,18 @@
 spring.cloud.stream:
   function:
-    definition: johnyConsumer;notifyProcessed;enrichProducts
+    #    These are the functions that we register as the processing functions, these are semicolon (;) seperated values
+    #    Multiple function example: fun1;fun2;fun3
+    definition: enrichProducts
   bindings:
-    johnyConsumer-in-0:
-      destination: johny
-      group:
-        startOffset: latest
-    johnyConsumer-out-0:
-      destination: johny-processed
-    notifyProcessed-in-0:
-      destination: johny-processed
-      group:
-        startOffset: latest
-    notifyProcessed-out-0:
-      destination: johny-notified
     enrichProducts-in-0:
       destination: products
-#      group:
-#        startOffset: earliest
     enrichProducts-in-1:
       destination: vendors
+    #      Defining an output topic for our stream function
+    #    enrichProducts-out-0:
+    #      destination: enriched-products
 
+    #      Additional configurations
     #  kafka:
     #    bindings:
     #      numberProducer-out-0:
