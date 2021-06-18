@@ -1,0 +1,33 @@
+spring.cloud.stream:
+  function:
+    definition: johnyConsumer;notifyProcessed;enrichProducts
+  bindings:
+    johnyConsumer-in-0:
+      destination: johny
+      group:
+        startOffset: latest
+    johnyConsumer-out-0:
+      destination: johny-processed
+    notifyProcessed-in-0:
+      destination: johny-processed
+      group:
+        startOffset: latest
+    notifyProcessed-out-0:
+      destination: johny-notified
+    enrichProducts-in-0:
+      destination: products
+#      group:
+#        startOffset: earliest
+    enrichProducts-in-1:
+      destination: vendors
+
+    #  kafka:
+    #    bindings:
+    #      numberProducer-out-0:
+    #        producer:
+    #          configuration:
+    #            value:
+    #              serializer: org.apache.kafka.common.serialization.LongSerializer
+    binder:
+      brokers:
+        - localhost:9092
