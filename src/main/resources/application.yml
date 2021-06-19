@@ -2,12 +2,26 @@ spring.cloud.stream:
   function:
     #    These are the functions that we register as the processing functions, these are semicolon (;) seperated values
     #    Multiple function example: fun1;fun2;fun3
-    definition: enrichProducts
+    definition: enrichProducts;pendingOrders;completedOrders,orderPriceSplitter,notifyCheapOrders,notifyExpensiveOrders
   bindings:
     enrichProducts-in-0:
       destination: products
     enrichProducts-in-1:
       destination: vendors
+    pendingOrders-in-0:
+      destination: orders
+    completedOrders-in-0:
+      destination: orders
+    orderPriceSplitter-in-0:
+      destination: orders
+    orderPriceSplitter-out-0:
+      destination: expensive-orders
+    orderPriceSplitter-out-1:
+      destination: cheap-orders
+    notifyCheapOrders-in-0:
+      destination: cheap-orders
+    notifyExpensiveOrders-in-0:
+      destination: expensive-orders
     #      Defining an output topic for our stream function
     #    enrichProducts-out-0:
     #      destination: enriched-products
