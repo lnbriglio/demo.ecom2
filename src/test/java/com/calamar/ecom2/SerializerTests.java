@@ -42,7 +42,7 @@ public class SerializerTests {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new Jdk8Module());
 
-        String serializedContract = "{\"id\":15,\"text\":\"hey\",\"subtext\":null,\"person\":{\"id\":10,\"name\":\"John Rambo\"}}";
+        String serializedContract = "{\"id\":15,\"text\":\"hey\",\"subtext\":null,\"person\":{\"id\":10,\"name\":\"John Rambo\"},\"flag\":\"y\"}";
 
         Contract contract = mapper.readValue(serializedContract, Contract.class);
 
@@ -53,6 +53,26 @@ public class SerializerTests {
         assertThat(contract.subtext).isEqualTo(Optional.ofNullable(null));
         assertThat(contract.person.get().id).isEqualTo(Optional.of(10));
         assertThat(contract.person.get().name).isEqualTo(Optional.of("John Rambo"));
+        assertThat(contract.flag).isEqualTo(Optional.of(true));
+    }
+
+    @Test
+    public void should_deserialize2() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new Jdk8Module());
+
+        String serializedContract = "{\"id\":15,\"text\":\"hey\",\"subtext\":null,\"person\":{\"id\":10,\"name\":\"John Rambo\"},\"flag\":true}";
+
+        Contract contract = mapper.readValue(serializedContract, Contract.class);
+
+
+        assertThat(contract.getId()).isEqualTo(Optional.of(15));
+        assertThat(contract.footer).isNull();
+        assertThat(contract.text).isEqualTo(Optional.of("hey"));
+        assertThat(contract.subtext).isEqualTo(Optional.ofNullable(null));
+        assertThat(contract.person.get().id).isEqualTo(Optional.of(10));
+        assertThat(contract.person.get().name).isEqualTo(Optional.of("John Rambo"));
+        assertThat(contract.flag).isEqualTo(Optional.of(true));
     }
 
     @Test
